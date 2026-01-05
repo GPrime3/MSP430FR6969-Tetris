@@ -45,3 +45,36 @@ static void ssd_data(const uint8_t *data, uint8_t n)
 {
     i2c_write(CTRL_DATA, data, n);
 }
+
+static void init_clock(void)
+{
+    FRCTL0 = FRCTLPW | NWAITS_1;
+
+    CSCTL0_H = CSKEY_H;
+    CSCTL1   = DCOFSEL_4 | DCORSEL;      /* 16 MHz DCO */
+    CSCTL2   = SELA__VLOCLK | SELS__DCOCLK | SELM__DCOCLK;
+    CSCTL3   = DIVA__1 | DIVS__1 | DIVM__1;
+    CSCTL0_H = 0;
+}
+
+static void init_gpio(void)
+{
+    PM5CTL0 &= ~LOCKLPM5;
+
+    /* I2C pins: P1.6 SDA, P1.7 SCL on UCB0 */
+    P1SEL0 |= BIT6 | BIT7;
+    P1SEL1 &= ~(BIT6 | BIT7);
+
+    /* Button on P2.3: input with pull-up, active LOW */
+    P2DIR &= ~BIT3;   /* input */
+    P2REN |= BIT3;    /* enable resistor */
+    P2OUT |= BIT3;    /* pull-up */
+}
+
+static void init_i2c(void)
+{
+    UCB0CTLW0 = UCSWRST;
+    UCB0CTLW0 |= UCMST | UCMODE_3 | UCSYNC | UCSSEL__SMCLK;
+    UCB0BRW = 160;              /* ~100 kHz at 16 MHz */
+    UCB0CTLW0 &= ~UCSWRST;
+}
