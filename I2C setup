@@ -1,0 +1,47 @@
+#include <msp430.h>
+#include <stdint.h>
+#define SSD1306_ADDR   0x3C // SSD1306 address
+// Bit layout from Data sheet
+#define CTRL_CMD       0x00  
+#define CTRL_DATA      0x40  
+
+//General I2C write function
+static void i2c_write(uint8_t ctrl, const uint8_t *bytes, uint8_t len) 
+{
+    uint8_t i;
+    UCB0I2CSA = SSD1306_ADDR;
+    UCB0CTLW0 |= UCTR | UCTXSTT;  /* TX, START */
+    while (UCB0CTLW0 & UCTXSTT)
+    {
+        /* wait for start to finish */
+    }
+    while (!(UCB0IFG & UCTXIFG))
+    {
+    }
+    UCB0TXBUF = ctrl;            /* control byte */
+    for (i = 0; i < len; i++)
+    {
+        while (!(UCB0IFG & UCTXIFG))
+        {
+        }
+        UCB0TXBUF = bytes[i];
+    }
+    while (!(UCB0IFG & UCTXIFG))
+    {
+    }
+    UCB0CTLW0 |= UCTXSTP;        /* STOP */
+    while (UCB0CTLW0 & UCTXSTP)
+    {
+    }
+}
+
+//SSD1306 specific functions
+static void ssd_cmd(const uint8_t *cmds, uint8_t n)
+{
+    i2c_write(CTRL_CMD, cmds, n);
+}
+
+static void ssd_data(const uint8_t *data, uint8_t n)
+{
+    i2c_write(CTRL_DATA, data, n);
+}
