@@ -1,0 +1,65 @@
+static void ssd_set_page_col(uint8_t page, uint8_t col)
+{
+    uint8_t cmd[1];
+
+    /* Set page: B0–B7 */
+    cmd[0] = (uint8_t)(0xB0 | (page & 0x07));
+    ssd_cmd(cmd, 1);
+
+    /* Column low nibble: 0x00–0x0F */
+    cmd[0] = (uint8_t)(0x00 | (col & 0x0F));
+    ssd_cmd(cmd, 1);
+
+    /* Column high nibble: 0x10–0x1F */
+    cmd[0] = (uint8_t)(0x10 | ((col >> 4) & 0x0F));
+    ssd_cmd(cmd, 1);
+}
+
+//All pixels off
+static void clear_screen(void)
+{
+    uint8_t page;
+    uint8_t data[1];
+    uint8_t i;
+
+    data[0] = 0x00;  /* all off */
+
+    for (page = 0; page < 8; page++)
+    {
+        ssd_set_page_col(page, 0);
+
+        /* Write 0x00 across all 128 columns */
+        for (i = 0; i < 128; i++)
+        {
+            ssd_data(data, 1);
+        }
+    }
+}
+
+static void draw_block_cell(uint8_t gx, uint8_t gy)
+{
+    uint8_t page = gy;
+    uint8_t col_start = (uint8_t)(gx * 8);
+    uint8_t data[1] = { 0xFF };
+    uint8_t i;
+
+    for (i = 0; i < 8; i++)
+    {
+        ssd_set_page_col(page, (uint8_t)(col_start + i));
+        ssd_data(data, 1);
+    }
+}
+
+static void clear_block_cell(uint8_t gx, uint8_t gy)
+{
+    uint8_t page = gy;
+    uint8_t col_start = (uint8_t)(gx * 8);
+    uint8_t data[1] = { 0x00 };
+    uint8_t i;
+
+    for (i = 0; i < 8; i++)
+    {
+        ssd_set_page_col(page, (uint8_t)(col_start + i));
+        ssd_data(data, 1);
+    }
+}
