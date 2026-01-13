@@ -1,0 +1,52 @@
+typedef struct {
+    int8_t dx;
+    int8_t dy;
+} CellOffset;
+
+static const CellOffset L_OFFSETS[4][4] = {
+    /* rotation 0
+       X
+       X
+       XX
+    */
+    { {0,0}, {0,1}, {0,2}, {1,2} },
+    /* rotation 1:
+       XXX
+       X
+    */
+    { {0,0}, {1,0}, {2,0}, {0,1} },
+    /* rotation 2:
+       XX
+        X
+        X
+    */
+    { {0,0}, {1,0}, {1,1}, {1,2} },
+    /* rotation 3:
+         X
+       XXX
+    */
+    { {2,0}, {0,1}, {1,1}, {2,1} }
+};
+
+//Draw functions used for L-piece only currently
+static void draw_piece(void)
+{
+    uint8_t i;
+    for (i = 0; i < 4; i++)
+    {
+        uint8_t gx = (uint8_t)(piece_x + L_OFFSETS[rot][i].dx);
+        uint8_t gy = (uint8_t)(piece_y + L_OFFSETS[rot][i].dy);
+        draw_block_cell(gx, gy);
+    }
+}
+
+static void clear_piece(void)
+{
+    uint8_t i;
+    for (i = 0; i < 4; i++)
+    {
+        uint8_t gx = (uint8_t)(piece_x + L_OFFSETS[rot][i].dx);
+        uint8_t gy = (uint8_t)(piece_y + L_OFFSETS[rot][i].dy);
+        clear_block_cell(gx, gy);
+    }
+}
