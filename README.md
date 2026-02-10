@@ -13,3 +13,6 @@ Tetris Game implementation for the MSP430FR6969 Launchpad using I2C to interface
 -> Score Counter Using built-in microcontroller display\
 -> Restart Mechanism\
 -> Game Over Screen
+
+# Demo
+[![Watch the video](https://img.youtube.com/vi/T-D1KVIuvjA/maxresdefault.jpg)](https://youtube.com/shorts/gUFGPymxnxQ?feature=share)
