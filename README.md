@@ -1,6 +1,6 @@
 # MSP430FR6969-Tetris
 Tetris Game implementation for the MSP430FR6969 Launchpad using I2C to interface the [SSD1306](https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf) display made using Code Composer Studio.
-# Uses 7 bag randomizer for the 7 standard Tetris blocks
+Uses 7 bag randomizer for the 7 standard Tetris blocks
 # Hardware Used 
 -> MSP430FR6969
   -> P1.6 => SDA\
