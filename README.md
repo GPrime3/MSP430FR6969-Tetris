@@ -15,4 +15,6 @@ Tetris Game implementation for the MSP430FR6969 Launchpad using I2C to interface
 -> Game Over Screen
 
 # Demo
-[![Watch the video](https://img.youtube.com/vi/T-D1KVIuvjA/maxresdefault.jpg)](https://youtube.com/shorts/gUFGPymxnxQ?feature=share)
+.. image:: https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/maxresdefault.jpg
+    :alt: IMAGE ALT TEXT HERE
+    :target: [https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://youtube.com/shorts/gUFGPymxnxQ)
