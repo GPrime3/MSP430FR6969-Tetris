@@ -7,9 +7,9 @@ Tetris Game implementation for the MSP430FR6969 Launchpad using I2C to interface
   -> P1.7 => SCLK\
   -> p2.3, P3.1, P1.1, P1.2 => Buttons\
 -> SSD1306 (0x3C)\
--> 3 push buttons\
+-> 3 push buttons
 
 # Intended Upgrades
 -> Score Counter Using built-in microcontroller display\
 -> Restart Mechanism\
--> Game Over Screen\
+-> Game Over Screen
